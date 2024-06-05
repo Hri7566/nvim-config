@@ -570,7 +570,7 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
-        -- tsserver = {},
+        tsserver = {},
         --
 
         lua_ls = {
@@ -617,6 +617,18 @@ require('lazy').setup({
           end,
         },
       }
+
+      require('lspconfig').emmet_ls.setup {
+        capabilities = capabilities,
+        filetypes = { 'css', 'eruby', 'html', 'javascript', 'javascriptreact', 'less', 'sass', 'scss', 'svelte', 'pug', 'typescriptreact', 'vue' },
+        init_options = {
+          html = {
+            options = {
+              ['bem.enabled'] = true,
+            },
+          },
+        },
+      }
     end,
   },
 
@@ -652,7 +664,7 @@ require('lazy').setup({
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
-        -- javascript = { { "prettierd", "prettier" } },
+        javascript = { { 'prettierd', 'prettier' } },
       },
     },
   },
@@ -899,6 +911,16 @@ require('lazy').setup({
     config = function()
       require('refactoring').setup()
     end,
+  },
+  {
+    'S1M0N38/love2d.nvim',
+    cmd = 'LoveRun',
+    opts = {},
+    keys = {
+      { '<leader>v', desc = 'LÖVE' },
+      { '<leader>vv', '<cmd>LoveRun<cr>', desc = 'Run LÖVE' },
+      { '<leader>vs', '<cmd>LoveStop<cr>', desc = 'Stop LÖVE' },
+    },
   },
 }, {
   ui = {
