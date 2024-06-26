@@ -323,7 +323,7 @@ require('lazy').setup({
 
         -- `build` is used to run some command when the plugin is installed/updated.
         -- This is only run then, not every time Neovim starts up.
-        build = 'make',
+        build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
 
         -- `cond` is a condition used to determine whether this plugin should be
         -- installed and loaded.
@@ -431,7 +431,15 @@ require('lazy').setup({
 
       -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
       -- used for completion, annotations and signatures of Neovim apis
-      { 'folke/neodev.nvim', opts = {} },
+      --
+      -- well neodev is deprecated, so fuck you
+      -- { 'folke/neodev.nvim', opts = {} },
+
+      {
+        'folke/lazydev.nvim',
+        ft = 'lua',
+        opts = {},
+      },
     },
     config = function()
       -- Brief aside: **What is LSP?**
