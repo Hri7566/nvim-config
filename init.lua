@@ -950,6 +950,12 @@ require('lazy').setup({
       { '<leader>vs', '<cmd>LoveStop<cr>', desc = 'Stop LÖVE' },
     },
   },
+  {
+    'andweeb/presence.nvim',
+    config = function()
+      require('presence').setup()
+    end,
+  },
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
