@@ -288,8 +288,18 @@ require('lazy').setup({
     config = function() -- This is the function that runs, AFTER loading
       require('which-key').setup()
 
+      local wk = require 'which-key'
+
       -- Document existing key chains
-      require('which-key').register {
+      wk.add {
+        { '<leader>c', desc = '[C]ode' },
+        { '<leader>d', desc = '[D]ocument' },
+        { '<leader>r', desc = '[R]ename' },
+        { '<leader>s', desc = '[S]earch' },
+        { '<leader>w', desc = '[W]orkspace' },
+        { '<leader>t', desc = '[T]oggle' },
+        { '<leader>h', desc = 'Git [H]unk' },
+        --[[ which-key old style bindings
         ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
         ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
         ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
@@ -297,10 +307,12 @@ require('lazy').setup({
         ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
         ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
         ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
+        ]]
       }
       -- visual mode
-      require('which-key').register({
-        ['<leader>h'] = { 'Git [H]unk' },
+      wk.add({
+        { '<leader>h', desc = 'Git [H]unk' },
+        --['<leader>h'] = { 'Git [H]unk' },
       }, { mode = 'v' })
     end,
   },
@@ -958,6 +970,16 @@ require('lazy').setup({
     'andweeb/presence.nvim',
     config = function()
       require('presence').setup()
+    end,
+  },
+  {
+    'VonHeikemen/lsp-zero.nvim',
+    branch = 'v3.x',
+  },
+  {
+    'supermaven-inc/supermaven-nvim',
+    config = function()
+      require('supermaven-nvim').setup {}
     end,
   },
 }, {
