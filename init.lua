@@ -161,6 +161,7 @@ vim.opt.scrolloff = 10
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
 vim.opt.smarttab = true
+vim.opt.expandtab = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -621,6 +622,8 @@ require('lazy').setup({
             },
           },
         },
+
+        biome = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -981,6 +984,23 @@ require('lazy').setup({
     config = function()
       require('supermaven-nvim').setup {}
     end,
+  },
+  {
+    'nvim-tree/nvim-tree.lua',
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+    },
+    config = function()
+      require('nvim-tree').setup()
+    end,
+  },
+  {
+    'numToStr/Comment.nvim',
+    opts = {},
+  },
+  {
+    'neoclide/coc.nvim',
+    branch = 'release',
   },
 }, {
   ui = {
