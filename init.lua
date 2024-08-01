@@ -991,7 +991,11 @@ require('lazy').setup({
       'nvim-tree/nvim-web-devicons',
     },
     config = function()
-      require('nvim-tree').setup()
+      require('nvim-tree').setup {
+        view = {
+          preserve_window_proportions = true,
+        },
+      }
     end,
   },
   {
