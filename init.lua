@@ -386,6 +386,9 @@ require('lazy').setup({
             require('telescope.themes').get_dropdown(),
           },
         },
+        defaults = {
+          file_ignore_patterns = { 'node_modules', '.git', '.cache', '.env', 'build', 'dist', 'bun.lockb', 'pnpm-lock.yaml', 'yarn.lock', 'package-lock.json' },
+        },
       }
 
       -- Enable Telescope extensions if they are installed
