@@ -608,7 +608,9 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
-        tsserver = {},
+        --tsserver = {},
+        -- 2024-09-30 tsserver is deprecated in favor of ts_ls
+        ts_ls = {},
         --
 
         lua_ls = {
@@ -982,12 +984,14 @@ require('lazy').setup({
     'VonHeikemen/lsp-zero.nvim',
     branch = 'v3.x',
   },
+  --[[
   {
     'supermaven-inc/supermaven-nvim',
     config = function()
       require('supermaven-nvim').setup {}
     end,
   },
+  --]]
   {
     'nvim-tree/nvim-tree.lua',
     dependencies = {
