@@ -3,8 +3,7 @@
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
 =====================================================================
-========                                    .-----.          ========
-========         .----------------------.   | === |          ========
+========                                    .-----.          ======== ========         .----------------------.   | === |          ========
 ========         |.-""""""""""""""""""-.|   |-----|          ========
 ========         ||                    ||   | === |          ========
 ========         ||   KICKSTART.NVIM   ||   |-----|          ========
@@ -456,6 +455,12 @@ require('lazy').setup({
         ft = 'lua',
         opts = {},
       },
+
+      -- zig syntax
+      {
+        'ziglang/zig.vim',
+        branch = 'master',
+      },
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -601,7 +606,7 @@ require('lazy').setup({
         clangd = {},
         gopls = {},
         -- pyright = {},
-        -- rust_analyzer = {},
+        rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -671,6 +676,19 @@ require('lazy').setup({
           },
         },
       }
+
+      -- setup zig (they hate mason)
+      vim.g.zig_fmt_parse_errors = 0
+      vim.g.zig_fmt_autosave = 0
+
+      -- correct format on save
+      -- https://zigtools.org/zls/editors/vim/nvim-lspconfig/
+      vim.api.nvim_create_autocmd('BufWritePre', {
+        pattern = { '*.zig', '*.zon' },
+        callback = function(ev)
+          vim.lsp.buf.format()
+        end,
+      })
     end,
   },
 
@@ -706,7 +724,7 @@ require('lazy').setup({
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
-        javascript = { { 'prettierd', 'prettier' } },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
@@ -822,6 +840,7 @@ require('lazy').setup({
     end,
   },
 
+  --[[
   { -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then
     -- change the command in the config to whatever the name of that colorscheme is.
@@ -843,6 +862,7 @@ require('lazy').setup({
       vim.cmd.hi 'Comment gui=none'
     end,
   },
+  ]]
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
@@ -961,7 +981,7 @@ require('lazy').setup({
       'nvim-treesitter/nvim-treesitter',
     },
     config = function()
-      require('refactoring').setup()
+      require('refactoring').setup {}
     end,
   },
   {
@@ -977,7 +997,7 @@ require('lazy').setup({
   {
     'andweeb/presence.nvim',
     config = function()
-      require('presence').setup()
+      require('presence').setup {}
     end,
   },
   {
@@ -1012,6 +1032,46 @@ require('lazy').setup({
   {
     'neoclide/coc.nvim',
     branch = 'release',
+  },
+  --[[
+  {
+    'morhetz/gruvbox',
+    init = function()
+      vim.cmd.colorscheme 'gruvbox'
+    end,
+  },
+  ]]
+  --
+  {
+    'ellisonleao/gruvbox.nvim',
+    priority = 1000,
+    config = true,
+    opts = {},
+    init = function()
+      require('gruvbox').setup {
+        transparent_mode = true,
+      }
+    end,
+  },
+  {
+    'danymat/neogen',
+    config = true,
+    init = function()
+      require('neogen').setup {
+        enabled = true,
+        languages = {
+          lua = {
+            template = {
+              annotation_convention = 'emmylua',
+            },
+          },
+          javascript = require 'neogen.configurations.javascript',
+          javascriptreact = require 'neogen.configurations.javascriptreact',
+          typescript = require 'neogen.configurations.typescript',
+          typescriptreact = require 'neogen.configurations.typescriptreact',
+        },
+      }
+    end,
   },
 }, {
   ui = {
@@ -1049,6 +1109,8 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 require('refactoring').setup {
   show_success_message = true,
 }
+
+vim.cmd 'colorscheme gruvbox'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
