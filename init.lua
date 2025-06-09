@@ -134,7 +134,8 @@ vim.opt.updatetime = 250
 
 -- Decrease mapped sequence wait time
 -- Displays which-key popup sooner
-vim.opt.timeoutlen = 300
+--vim.opt.timeoutlen = 300
+vim.opt.timeoutlen = 100
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
@@ -676,12 +677,13 @@ require('lazy').setup({
 
   { -- Autoformat
     'stevearc/conform.nvim',
-    lazy = false,
+    event = { 'BufWritePre' },
+    cmd = { 'ConformInfo' },
     keys = {
       {
         '<leader>f',
         function()
-          require('conform').format { async = true, lsp_fallback = true }
+          require('conform').format { async = true, lsp_fallback = true, stop_after_first = true }
         end,
         mode = '',
         desc = '[F]ormat buffer',
@@ -706,7 +708,7 @@ require('lazy').setup({
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
-        javascript = { { 'prettierd', 'prettier' } },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
@@ -822,6 +824,7 @@ require('lazy').setup({
     end,
   },
 
+  --[[
   { -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then
     -- change the command in the config to whatever the name of that colorscheme is.
@@ -842,7 +845,7 @@ require('lazy').setup({
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
     end,
-  },
+  },]]
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
@@ -1012,6 +1015,12 @@ require('lazy').setup({
   {
     'neoclide/coc.nvim',
     branch = 'release',
+  },
+  {
+    'ellisonleao/gruvbox.nvim',
+    init = function()
+      vim.cmd 'colors gruvbox'
+    end,
   },
 }, {
   ui = {
