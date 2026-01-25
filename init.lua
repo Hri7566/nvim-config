@@ -922,6 +922,7 @@ local lazy_setup =
     },
     { -- Highlight, edit, and navigate code
       'nvim-treesitter/nvim-treesitter',
+      lazy = false,
       build = ':TSUpdate',
       opts = {
         ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc' },
@@ -942,7 +943,7 @@ local lazy_setup =
         -- Prefer git instead of curl in order to improve connectivity in some environments
         require('nvim-treesitter.install').prefer_git = true
         ---@diagnostic disable-next-line: missing-fields
-        require('nvim-treesitter.configs').setup(opts)
+        require('nvim-treesitter').setup(opts)
 
         -- There are additional nvim-treesitter modules that you can use to interact
         -- with nvim-treesitter. You should go explore a few and see what interests you:
