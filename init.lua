@@ -1067,7 +1067,7 @@ local lazy_setup =
         }
       end,
     },
-    --{ 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
+    { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
     {
       'danymat/neogen',
       config = true,
@@ -1129,7 +1129,7 @@ require('refactoring').setup {
 }
 
 --vim.cmd 'colorscheme gruvbox'
---vim.cmd 'colorscheme catppuccin-frappe'
+vim.cmd 'colorscheme catppuccin-frappe'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
