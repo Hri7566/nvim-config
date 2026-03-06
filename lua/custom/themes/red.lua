@@ -1,7 +1,7 @@
 return {
   name = 'red',
   colorscheme = 'ashen',
-  plugin = 'ficcdaf/ashen.nvim',
+  plugin = 'ficd0/ashen.nvim',
 
   highlights = {
     NonText = '#e8a0a0',

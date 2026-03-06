@@ -8,7 +8,7 @@ return {
   {
     {
       colors.plugin,
-      tag = '*',
+      tag = 'v0.11.0',
       lazy = false,
       priority = 1000,
       config = function()
