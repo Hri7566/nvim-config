@@ -782,6 +782,11 @@ local lazy_setup =
             --     require('luasnip.loaders.from_vscode').lazy_load()
             --   end,
             -- },
+            'hrsh7th/cmp-buffer', -- source for text in buffer
+            'hrsh7th/cmp-path', -- source for file system paths
+            'l3MON4D3/LuaSnip', -- snippet engine
+            'saadparwaiz1/cmp_luasnip', -- for autocompletion
+            'rafamadriz/friendly-snippets', -- snippet collection
           },
         },
         'saadparwaiz1/cmp_luasnip',
@@ -985,7 +990,7 @@ local lazy_setup =
     --
     --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
     --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
-    -- { import = 'custom.plugins' },
+    { import = 'custom.plugins' },
     --
     {
       'ray-x/go.nvim',
@@ -1004,12 +1009,9 @@ local lazy_setup =
     {
       'ThePrimeagen/refactoring.nvim',
       dependencies = {
-        'nvim-lua/plenary.nvim',
-        'nvim-treesitter/nvim-treesitter',
+        'lewis6991/async.nvim',
       },
-      config = function()
-        require('refactoring').setup {}
-      end,
+      lazy = false,
     },
     {
       'S1M0N38/love2d.nvim',
@@ -1077,7 +1079,21 @@ local lazy_setup =
         }
       end,
     },
-    { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
+    {
+      'catppuccin/nvim',
+      name = 'catppuccin',
+      priority = 1000,
+      init = function()
+        require('catppuccin').setup {
+          auto_integrations = true,
+          transparent_background = true,
+          float = {
+            transparent = true,
+            solid = true,
+          },
+        }
+      end,
+    },
     {
       'danymat/neogen',
       config = true,
@@ -1098,7 +1114,6 @@ local lazy_setup =
         }
       end,
     },
-    require 'custom.plugins.init',
   }, {
     ui = {
       -- If you are using a Nerd Font: set icons to an empty table which will use the
