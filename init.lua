@@ -741,6 +741,7 @@ local lazy_setup =
           local disable_filetypes = { c = true, cpp = true }
           return {
             timeout_ms = 500,
+            lsp_format = 'first',
             lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
           }
         end,
@@ -752,6 +753,12 @@ local lazy_setup =
           -- You can use a sub-list to tell conform to run *until* a formatter
           -- is found.
           javascript = { 'prettierd', 'prettier', stop_after_first = true },
+          go = { 'goimports' },
+        },
+        formatters = {
+          shfmt = {
+            prepend_args = { '-i', '2', '-ci' },
+          },
         },
       },
     },
@@ -1140,6 +1147,7 @@ require('lazy').setup(lazy_setup)
 
 require('go').setup()
 
+--[[
 local format_sync_grp = vim.api.nvim_create_augroup('GoFormat', {})
 vim.api.nvim_create_autocmd('BufWritePre', {
   pattern = '*.go',
@@ -1148,6 +1156,7 @@ vim.api.nvim_create_autocmd('BufWritePre', {
   end,
   group = format_sync_grp,
 })
+--]]
 
 require('refactoring').setup {
   show_success_message = true,
