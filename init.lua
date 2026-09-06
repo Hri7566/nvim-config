@@ -564,6 +564,46 @@ local lazy_setup =
               end)
             end, '[L]SP [R]estart')
 
+            -- spawn terminal below
+            map('<leader>tt', function()
+              -- ai generated
+              local height = 20
+
+              -- If the terminal window is currently visible, hide it
+              if terminal_win and vim.api.nvim_win_is_valid(terminal_win) then
+                vim.api.nvim_win_hide(terminal_win)
+                terminal_win = nil
+                return
+              end
+
+              local original_win = vim.api.nvim_get_current_win()
+              local original_view = vim.fn.winsaveview()
+
+              -- Reopen the existing terminal buffer if it still exists
+              if terminal_buf and vim.api.nvim_buf_is_valid(terminal_buf) then
+                vim.cmd('rightbelow ' .. height .. ' split')
+                terminal_win = vim.api.nvim_get_current_win()
+                vim.api.nvim_win_set_buf(terminal_win, terminal_buf)
+              else
+                -- Create a new terminal
+                vim.cmd('rightbelow ' .. height .. ' split | terminal')
+                terminal_win = vim.api.nvim_get_current_win()
+                terminal_buf = vim.api.nvim_get_current_buf()
+              end
+
+              if terminal_win ~= nil then
+                vim.api.nvim_win_set_height(terminal_win, 20)
+              end
+
+              if vim.api.nvim_win_is_valid(original_win) then
+                vim.api.nvim_win_call(original_win, function()
+                  vim.fn.winrestview(original_view)
+                end)
+              end
+
+              vim.cmd 'startinsert'
+            end, '[T]oggle [T]erminal')
+
             -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
             ---@param client vim.lsp.Client
             ---@param method vim.lsp.protocol.Method
