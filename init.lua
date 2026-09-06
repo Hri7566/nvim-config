@@ -627,7 +627,6 @@ local lazy_setup =
         --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
         local servers = {
           clangd = {},
-          gopls = {},
           -- pyright = {},
           rust_analyzer = {},
           -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -715,6 +714,26 @@ local lazy_setup =
             vim.lsp.buf.format()
           end,
         })
+
+        -- disable gopls formatting because we have conform
+        vim.lsp.config('gopls', {
+          cmd = { 'gopls' },
+          filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+          settings = {
+            gopls = {
+              analyses = {
+                unusedparams = true,
+                shadow = true,
+              },
+              staticcheck = true,
+              gofumpt = false,
+            },
+          },
+          --capabilities = vim.lsp.protocol.make_client_capabilities(),
+          capabilites = capabilites,
+        })
+
+        vim.lsp.enable 'gopls'
       end,
     },
 
@@ -738,7 +757,8 @@ local lazy_setup =
           -- Disable "format_on_save lsp_fallback" for languages that don't
           -- have a well standardized coding style. You can add additional
           -- languages here or re-enable it for the disabled ones.
-          local disable_filetypes = { c = true, cpp = true }
+          local disable_filetypes = { c = true, cpp = true, go = true }
+
           return {
             timeout_ms = 500,
             lsp_format = 'first',
@@ -753,12 +773,10 @@ local lazy_setup =
           -- You can use a sub-list to tell conform to run *until* a formatter
           -- is found.
           javascript = { 'prettierd', 'prettier', stop_after_first = true },
-          go = { 'goimports' },
-        },
-        formatters = {
           shfmt = {
             prepend_args = { '-i', '2', '-ci' },
           },
+          go = { 'goimports', 'gofmt', stop_after_first = true },
         },
       },
     },
@@ -1093,7 +1111,7 @@ local lazy_setup =
       init = function()
         require('catppuccin').setup {
           auto_integrations = true,
-          transparent_background = true,
+          transparent_background = false,
           float = {
             transparent = true,
             solid = true,
@@ -1145,7 +1163,7 @@ local lazy_setup =
 
 require('lazy').setup(lazy_setup)
 
-require('go').setup()
+--require('go').setup()
 
 --[[
 local format_sync_grp = vim.api.nvim_create_augroup('GoFormat', {})
